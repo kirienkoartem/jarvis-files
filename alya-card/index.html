@@ -1,5 +1,14 @@
-<title>Для Али</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Для Али ♥</title>
+<meta name="description" content="Тебе письмо. Открой конверт ♥">
+<meta property="og:title" content="Аля, тебе письмо ♥">
+<meta property="og:description" content="Открой конверт">
+<meta name="theme-color" content="#22081a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Manrope:wght@400;600;700&family=Unbounded:wght@500;700&display=swap">
@@ -18,8 +27,13 @@
   --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: dark;
 }
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { height: 100%; }
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 body {
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
   background: radial-gradient(120% 80% at 50% 0%, var(--berry) 0%, var(--night) 60%) fixed, var(--night);
   color: var(--blush);
   font-family: var(--f-body);
@@ -143,6 +157,8 @@ body {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
 }
 </style>
+</head>
+<body>
 
 <canvas id="sky" aria-hidden="true"></canvas>
 
@@ -335,9 +351,11 @@ body {
     }
     const nw = no.offsetWidth, nh = no.offsetHeight;
     const maxX = Math.max(0, box.width - nw - 12);
-    const maxY = Math.max(0, box.height - nh - 12);
-    no.style.left = (12 + Math.random() * (maxX - 12)) + 'px';
-    no.style.top = (12 + Math.random() * (maxY - 12)) + 'px';
+    const h3 = ask.querySelector('h3');
+    const minY = h3.offsetTop + h3.offsetHeight + 6;
+    const maxY = Math.max(minY, box.height - nh - 12);
+    no.style.left = (12 + Math.random() * Math.max(0, maxX - 12)) + 'px';
+    no.style.top = (minY + Math.random() * (maxY - minY)) + 'px';
     const grow = Math.min(1 + tries * 0.12, 1.8);
     yes.style.transform = `scale(${grow})`;
     if (tries >= 7) no.hidden = true;
@@ -361,3 +379,6 @@ body {
   });
 })();
 </script>
+
+</body>
+</html>
