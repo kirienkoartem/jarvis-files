@@ -1,0 +1,363 @@
+<title>Для Али</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Manrope:wght@400;600;700&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: one centered stage on a night-berry sky; envelope → letter → question, hearts drift behind everything. Single deliberate dark look. */
+:root {
+  --night: #22081a;
+  --berry: #4d1033;
+  --rose: #ff5f93;
+  --blush: #ffc4d6;
+  --paper: #fff3ef;
+  --ink: #4a1430;
+  --muted: #b58aa0;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-hand: "Caveat", "Segoe Script", "Comic Sans MS", cursive;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: radial-gradient(120% 80% at 50% 0%, var(--berry) 0%, var(--night) 60%) fixed, var(--night);
+  color: var(--blush);
+  font-family: var(--f-body);
+  overflow-x: hidden;
+}
+#sky { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+.stage {
+  position: relative; z-index: 1;
+  min-height: 100%;
+  display: grid; place-items: center;
+  padding-block: 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Envelope ---------- */
+.intro { display: grid; justify-items: center; gap: 28px; text-align: center; }
+.intro h1 {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(28px, 7vw, 48px); line-height: 1.1; margin: 0;
+  color: var(--paper); text-wrap: balance;
+}
+.intro h1 span { color: var(--rose); }
+.hint { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; animation: pulse 2.2s ease-in-out infinite; }
+
+.envelope {
+  position: relative; width: min(340px, 84vw); aspect-ratio: 3 / 2; max-width: 100%;
+  border: 0; padding: 0; background: none; cursor: pointer;
+  perspective: 900px; animation: bob 3s ease-in-out infinite;
+}
+.envelope:focus-visible { outline: 3px solid var(--rose); outline-offset: 10px; border-radius: 12px; }
+.env-back, .env-front, .env-flap { position: absolute; inset: 0; border-radius: 10px; }
+.env-back { background: #e8b4c4; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+.env-front {
+  background: linear-gradient(160deg, #ffd9e4, #f6b3c7);
+  clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+  z-index: 3;
+}
+.env-flap {
+  background: linear-gradient(180deg, #f9c6d5, #eaa3b9);
+  clip-path: polygon(0 0, 100% 0, 50% 58%);
+  transform-origin: top center; transition: transform .7s cubic-bezier(.5,0,.3,1);
+  z-index: 4;
+}
+.env-paper {
+  position: absolute; left: 8%; right: 8%; top: 10%; bottom: 8%;
+  background: var(--paper); border-radius: 6px; z-index: 2;
+  transition: transform .8s cubic-bezier(.3,.6,.3,1) .45s;
+}
+.seal {
+  position: absolute; left: 50%; top: 50%; z-index: 5;
+  width: 64px; height: 64px; margin: -34px 0 0 -32px;
+  display: grid; place-items: center;
+  background: var(--rose); border-radius: 50%;
+  box-shadow: 0 4px 0 #c73a6c, 0 10px 24px rgba(0,0,0,.35);
+  color: #fff; font-size: 30px; transition: opacity .3s, transform .3s;
+}
+.envelope.open { animation: none; }
+.envelope.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+.envelope.open .seal { opacity: 0; transform: scale(.4); }
+.envelope.open .env-paper { transform: translateY(-55%); }
+
+/* ---------- Letter ---------- */
+.letter-wrap { width: min(560px, 100%); display: grid; gap: 28px; }
+.letter {
+  background: var(--paper); color: var(--ink);
+  border-radius: 14px; padding: clamp(24px, 6vw, 44px);
+  box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  background-image: repeating-linear-gradient(180deg, transparent 0 37px, rgba(255,95,147,.16) 37px 38px);
+  background-position: 0 30px;
+  animation: rise .9s cubic-bezier(.2,.7,.2,1) both;
+}
+.letter h2 {
+  font-family: var(--f-hand); font-weight: 700;
+  font-size: clamp(34px, 9vw, 48px); line-height: 1.05; margin: 0 0 16px;
+  color: var(--rose); min-height: 1.05em;
+}
+.letter p {
+  font-family: var(--f-hand); font-weight: 500;
+  font-size: clamp(22px, 5.6vw, 27px); line-height: 38px; margin: 0;
+  opacity: 0; transform: translateY(8px); transition: opacity .7s, transform .7s;
+}
+.letter p.show { opacity: 1; transform: none; }
+.letter .big {
+  font-family: var(--f-display); font-weight: 700; color: var(--rose);
+  font-size: clamp(20px, 5.4vw, 28px); line-height: 1.25; margin-block: 18px; text-wrap: balance;
+}
+.letter .sign { text-align: right; margin-top: 12px; }
+.cursor { display: inline-block; width: 2px; height: .9em; background: var(--rose); margin-left: 3px; vertical-align: -0.08em; animation: blink .8s step-end infinite; }
+
+/* ---------- Question ---------- */
+.ask {
+  position: relative; text-align: center;
+  background: rgba(255,196,214,.08); border: 1px solid rgba(255,196,214,.2);
+  border-radius: 14px; padding: 28px 20px 32px; min-height: 190px;
+  opacity: 0; transform: translateY(10px); transition: opacity .7s, transform .7s;
+}
+.ask.show { opacity: 1; transform: none; }
+.ask h3 { font-family: var(--f-display); font-weight: 500; font-size: clamp(18px, 5vw, 24px); color: var(--paper); margin: 0 0 22px; }
+.btns { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; min-height: 56px; }
+.btn {
+  font-family: var(--f-body); font-weight: 700; font-size: 17px;
+  border: 0; border-radius: 999px; padding: 14px 30px; cursor: pointer;
+  transition: transform .25s, background .2s, left .35s cubic-bezier(.3,1.4,.5,1), top .35s cubic-bezier(.3,1.4,.5,1);
+}
+.btn:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+.yes { background: var(--rose); color: #fff; box-shadow: 0 6px 20px rgba(255,95,147,.45); }
+.yes:hover { background: #ff4682; }
+.no { background: rgba(255,196,214,.15); color: var(--blush); }
+.no.run { position: absolute; }
+.answer { font-family: var(--f-hand); font-size: clamp(30px, 8vw, 42px); color: var(--rose); margin: 6px 0 0; line-height: 1.15; }
+
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-1.5deg) } 50% { transform: translateY(-10px) rotate(1.5deg) } }
+@keyframes pulse { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
+@keyframes rise { from { opacity: 0; transform: translateY(40px) scale(.96) } to { opacity: 1; transform: none } }
+@keyframes blink { 50% { opacity: 0 } }
+@keyframes pop { 0% { transform: scale(.6); opacity: 0 } 60% { transform: scale(1.12) } 100% { transform: scale(1); opacity: 1 } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}
+</style>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <section class="intro" id="intro">
+    <h1>Аля, тебе <span>письмо</span></h1>
+    <button class="envelope" id="envelope" type="button" aria-label="Открыть письмо">
+      <span class="env-back"></span>
+      <span class="env-paper"></span>
+      <span class="env-front"></span>
+      <span class="env-flap"></span>
+      <span class="seal">♥</span>
+    </button>
+    <p class="hint">Нажми на конверт</p>
+  </section>
+
+  <section class="letter-wrap" id="letterWrap" hidden>
+    <article class="letter" aria-live="polite">
+      <h2 id="greet"></h2>
+      <p>Я сделал эту маленькую страничку только для тебя, чтобы ты открыла её и улыбнулась.</p>
+      <p>С тобой даже обычный день становится тёплым и уютным. Ты моя радость, моё спокойствие и мой самый любимый человек.</p>
+      <p>Спасибо, что ты рядом. Спасибо за твою улыбку, твой смех и за то, какая ты есть.</p>
+      <p class="big">Я очень-очень тебя люблю, моя булочка</p>
+      <p class="sign">Твой Артём ♥</p>
+    </article>
+
+    <div class="ask" id="ask">
+      <h3>Ты меня любишь?</h3>
+      <div class="btns" id="btns">
+        <button class="btn yes" id="yes" type="button">Да ♥</button>
+        <button class="btn no" id="no" type="button">Нет</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Heart sky (canvas) ---------- */
+  const cv = document.getElementById('sky');
+  const ctx = cv.getContext('2d');
+  let W = 0, H = 0, dpr = 1;
+  const colors = ['#ff5f93', '#ffc4d6', '#ff8fb1', '#ffffff', '#e83e78'];
+  const drift = [];
+  const bursts = [];
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize(); addEventListener('resize', resize);
+
+  function heart(x, y, s, color, alpha, rot) {
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(rot || 0); ctx.scale(s / 16, s / 16);
+    ctx.globalAlpha = alpha; ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0, 5);
+    ctx.bezierCurveTo(-1, 3, -8, -1, -8, -5);
+    ctx.bezierCurveTo(-8, -10, -2, -11, 0, -6);
+    ctx.bezierCurveTo(2, -11, 8, -10, 8, -5);
+    ctx.bezierCurveTo(8, -1, 1, 3, 0, 5);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function spawnDrift(initial) {
+    drift.push({
+      x: Math.random() * W,
+      y: initial ? Math.random() * H : H + 30,
+      s: 10 + Math.random() * 22,
+      v: .25 + Math.random() * .6,
+      sway: Math.random() * Math.PI * 2,
+      a: .15 + Math.random() * .45,
+      c: colors[(Math.random() * colors.length) | 0]
+    });
+  }
+  const DRIFT_N = reduce ? 0 : Math.round(Math.min(40, W / 22));
+  for (let i = 0; i < DRIFT_N; i++) spawnDrift(true);
+
+  function burst(x, y, n, power) {
+    if (reduce) n = Math.min(n, 6);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const sp = (1.5 + Math.random() * 4) * (power || 1);
+      bursts.push({
+        x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 2,
+        s: 10 + Math.random() * 18, life: 1, rot: (Math.random() - .5) * .6,
+        c: colors[(Math.random() * colors.length) | 0]
+      });
+    }
+  }
+
+  let t = 0;
+  function frame() {
+    t += 1;
+    ctx.clearRect(0, 0, W, H);
+    for (let i = drift.length - 1; i >= 0; i--) {
+      const h = drift[i];
+      h.y -= h.v;
+      const x = h.x + Math.sin(t / 60 + h.sway) * 14;
+      heart(x, h.y, h.s, h.c, h.a, Math.sin(t / 80 + h.sway) * .25);
+      if (h.y < -40) { drift.splice(i, 1); spawnDrift(false); }
+    }
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const b = bursts[i];
+      b.x += b.vx; b.y += b.vy; b.vy += .12; b.vx *= .985; b.life -= .012;
+      heart(b.x, b.y, b.s, b.c, Math.max(b.life, 0), b.rot);
+      if (b.life <= 0) bursts.splice(i, 1);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    burst(e.clientX, e.clientY, 8, .8);
+  });
+
+  /* ---------- Envelope → letter ---------- */
+  const envelope = document.getElementById('envelope');
+  const intro = document.getElementById('intro');
+  const wrap = document.getElementById('letterWrap');
+  const greet = document.getElementById('greet');
+  const paras = wrap.querySelectorAll('.letter p');
+  const ask = document.getElementById('ask');
+  let opened = false;
+
+  envelope.addEventListener('click', () => {
+    if (opened) return; opened = true;
+    envelope.classList.add('open');
+    const r = envelope.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, 40, 1.3);
+    setTimeout(() => {
+      intro.hidden = true;
+      wrap.hidden = false;
+      scrollTo({ top: 0 });
+      typeGreeting();
+    }, reduce ? 50 : 1400);
+  });
+
+  function typeGreeting() {
+    const text = 'Аля, моя булочка,';
+    if (reduce) { greet.textContent = text; showParas(); return; }
+    const cur = document.createElement('span'); cur.className = 'cursor';
+    let i = 0;
+    greet.textContent = ''; greet.appendChild(cur);
+    const tick = () => {
+      i++;
+      greet.textContent = text.slice(0, i); greet.appendChild(cur);
+      if (i < text.length) setTimeout(tick, 70);
+      else setTimeout(() => { cur.remove(); showParas(); }, 400);
+    };
+    setTimeout(tick, 600);
+  }
+
+  function showParas() {
+    paras.forEach((p, i) => setTimeout(() => {
+      p.classList.add('show');
+      if (p.classList.contains('big')) {
+        const r = p.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + r.height / 2, 30, 1);
+      }
+    }, reduce ? 0 : 900 + i * 1300));
+    setTimeout(() => ask.classList.add('show'), reduce ? 0 : 900 + paras.length * 1300 + 400);
+  }
+
+  /* ---------- Question ---------- */
+  const yes = document.getElementById('yes');
+  const no = document.getElementById('no');
+  const btns = document.getElementById('btns');
+  const noTexts = ['Нет', 'Точно?', 'Подумай ещё', 'Ну Аля…', 'Не верю', 'Кнопка сломалась', 'Только «Да»'];
+  let tries = 0;
+
+  function runAway(e) {
+    if (e) e.preventDefault();
+    tries++;
+    no.textContent = noTexts[Math.min(tries, noTexts.length - 1)];
+    const box = ask.getBoundingClientRect();
+    if (!no.classList.contains('run')) {
+      const nb = no.getBoundingClientRect();
+      no.style.left = (nb.left - box.left) + 'px';
+      no.style.top = (nb.top - box.top) + 'px';
+      no.classList.add('run');
+      no.getBoundingClientRect();
+    }
+    const nw = no.offsetWidth, nh = no.offsetHeight;
+    const maxX = Math.max(0, box.width - nw - 12);
+    const maxY = Math.max(0, box.height - nh - 12);
+    no.style.left = (12 + Math.random() * (maxX - 12)) + 'px';
+    no.style.top = (12 + Math.random() * (maxY - 12)) + 'px';
+    const grow = Math.min(1 + tries * 0.12, 1.8);
+    yes.style.transform = `scale(${grow})`;
+    if (tries >= 7) no.hidden = true;
+  }
+  no.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') runAway(); });
+  no.addEventListener('pointerdown', runAway);
+  no.addEventListener('click', runAway);
+
+  yes.addEventListener('click', () => {
+    const r = yes.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, 70, 1.6);
+    setTimeout(() => burst(W * .2, H * .4, 30, 1.2), 250);
+    setTimeout(() => burst(W * .8, H * .4, 30, 1.2), 450);
+    btns.innerHTML = '';
+    const a = document.createElement('p');
+    a.className = 'answer';
+    a.style.animation = 'pop .6s cubic-bezier(.3,1.5,.5,1) both';
+    a.textContent = 'Я знал! И я тебя тоже, сильнее всех на свете ♥';
+    btns.appendChild(a);
+    ask.querySelector('h3').textContent = 'Ура!';
+  });
+})();
+</script>
